@@ -14,38 +14,38 @@ describe Elb::Deploy do
   let(:lb) { double("Aws::Elb") }
   let(:deploy) { 
     deploy = Elb::Deploy.new(@options)
-    deploy.asg.stub(:load_balancers).and_return([lb])
-    deploy.stub(:wait).and_return(true)
+    allow(deploy.asg).to receive(:load_balancers).and_return([lb])
+    allow(deploy).to receive(:wait).and_return(true)
     deploy
   }
 
   describe "deploy" do
     it "should run" do
-      deploy.should_receive(:deregister)
-      deploy.should_receive(:restart)
-      deploy.should_receive(:warm)
-      deploy.should_receive(:register)
+      expect(deploy).to receive(:deregister)
+      expect(deploy).to receive(:restart)
+      expect(deploy).to receive(:warm)
+      expect(deploy).to receive(:register)
       deploy.run
     end
 
     it "should have asg" do
-      deploy.asg.should_not be_nil
+      expect(deploy.asg).to_not be_nil
     end
 
     it "should have elb" do
-      deploy.elb.should_not be_nil
+      expect(deploy.elb).to_not be_nil
     end
 
     it "should deregister" do
-      deploy.deregister.should == true
+      expect(deploy.deregister).to be true
     end
 
     it "should register" do
-      deploy.register.should == true
+      expect(deploy.register).to be true
     end
 
     it "should restart" do
-      deploy.restart.should == true
+      expect(deploy.restart).to be true
     end
 
   end
