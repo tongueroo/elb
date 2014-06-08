@@ -1,5 +1,9 @@
 language: ruby
 cache: bundler
 rvm:
-  - 1.8.7
-  - 2.0.0
+- 1.8.7
+- 2.0.0
+addons:
+  code_climate:
+    repo_token:
+      secure: AK6jL+T50l6SbGw/+xo6dpLUz++EQJl56DW+CDOp9+/SYZNL3PqtNGSApMEzXiAf1C+1TAhXRNkH8uyV7x8w6/SGFe+ZzxW1hupqJocDOaFL6sRHBXT9Fg9JNn3FULUgUjZDQn7t7u7QGBpykcGW3JNbKuyiQgfiSYSLx5Ee6OE=

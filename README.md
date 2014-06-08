@@ -1,5 +1,9 @@
 # Elb
 
+[![Build Status](https://travis-ci.org/tongueroo/elb.svg?branch=master)](https://travis-ci.org/tongueroo/elb)
+[![Code Climate](https://codeclimate.com/github/tongueroo/elb.png)](https://codeclimate.com/github/tongueroo/elb)
+[![Code Climate](https://codeclimate.com/github/tongueroo/elb/coverage.png)](https://codeclimate.com/github/tongueroo/elb)
+
 Tool gracefully restarts app server without affecting users by deregistering the instance from the elb, restarting it and registering it back to the elb.  
 
 It makes the assumption that the instance belongs to an autoscaling group that was created with cloudformation.  Cloudformation automatically tags these instances with a 'aws:autoscaling:groupName', tag which is required.
