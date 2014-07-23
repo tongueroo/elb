@@ -12,8 +12,10 @@ module Elb
     def run
       UI.say("Restarting server started")
       deregister
+      drop_inbound
       restart
       warm
+      add_inbound
       register
       UI.say("Restarting server completed")
     end
@@ -38,6 +40,15 @@ module Elb
       )
       wait(@options[:wait]) # takes a while for the elb to deregister
     end
+
+    def drop_inbound
+      %x{iptables -A INPUT -j DROP -p tcp --destination-port 80 -i eth0}
+    end
+
+    def add_inbound
+      %x{iptables -D INPUT -j DROP -p tcp --destination-port 80 -i eth0}
+    end
+
 
     def restart
       UI.say("Restarting server")
