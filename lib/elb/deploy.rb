@@ -42,11 +42,11 @@ module Elb
     end
 
     def drop_inbound
-      %x{iptables -A INPUT -j DROP -p tcp --destination-port 80 -i eth0}
+      %x{sudo /sbin/iptables -A INPUT -j DROP -p tcp --destination-port 80 -i eth0}
     end
 
     def add_inbound
-      %x{iptables -D INPUT -j DROP -p tcp --destination-port 80 -i eth0}
+      %x{sudo /sbin/iptables -D INPUT -j DROP -p tcp --destination-port 80 -i eth0}
     end
 
 
