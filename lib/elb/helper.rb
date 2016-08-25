@@ -1,4 +1,4 @@
-require 'aws-sdk-v1'
+require 'aws-sdk'
 
 module Elb
   module Helper
@@ -8,34 +8,33 @@ module Elb
       path = Elb::Settings.new.aws_path
       if File.exist?(path)
         @config = YAML.load(IO.read(path))
-        AWS.config(
-          :http_wire_trace => options[:debug],
-          :access_key_id => @config[:aws_access_key_id], 
-          :secret_access_key => @config[:aws_secret_access_key]
-        )
+        Aws.config.update({
+          region: region,
+          credentials: Aws::Credentials.new(@config[:aws_access_key_id], @config[:aws_secret_access_key])
+        })
       end
       @@setup_aws = true
     end
 
     def ec2
-      @ec2 ||= AWS::EC2.new
+      @ec2 ||= Aws::EC2::Client.new
     end
 
-    def cfn
-      @cfn ||= AWS::CloudFormation.new
-    end
+    # def cfn
+    #   @cfn ||= AWS::CloudFormation.new
+    # end
 
-    def rds
-      @rds ||= AWS::RDS.new
-    end
+    # def rds
+    #   @rds ||= AWS::RDS.new
+    # end
 
     def as
-      @as ||= AWS::AutoScaling.new
+      @as ||= Aws::AutoScaling::Client.new()
     end
 
-    def r53
-      @r53 ||= AWS::Route53.new
-    end
+    # def r53
+    #   @r53 ||= AWS::Route53.new
+    # end
 
   end
 end
