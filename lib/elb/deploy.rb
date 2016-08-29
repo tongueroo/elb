@@ -41,11 +41,11 @@ module Elb
     def elb_deregistration
       as = Aws::AutoScaling::Client.new()
 
-      tgs = as.describe_load_balancer_target_groups({ auto_scaling_group_name: @asg })
+      tgs = as.describe_load_balancer_target_groups({ auto_scaling_group_name: asg })
 
       if tgs[0].empty?
         lbs = as.describe_load_balancers({
-          auto_scaling_group_name: @asg
+          auto_scaling_group_name: asg
         })
 
         elb = Aws::ElasticLoadBalancing::Client.new()
@@ -76,11 +76,11 @@ module Elb
     def elb_registration
       as = Aws::AutoScaling::Client.new()
 
-      tgs = as.describe_load_balancer_target_groups({ auto_scaling_group_name: @asg })
+      tgs = as.describe_load_balancer_target_groups({ auto_scaling_group_name: asg })
 
       if tgs[0].empty?
         lbs = as.describe_load_balancers({
-          auto_scaling_group_name: @asg
+          auto_scaling_group_name: asg
         })
 
         elb = Aws::ElasticLoadBalancing::Client.new()
