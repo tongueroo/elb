@@ -1,0 +1,24 @@
+#!/bin/sh
+#
+# Perform necessary elb setup steps
+# after package is installed.
+#
+
+PROGNAME=`basename $0`
+
+error_exit()
+{
+  echo "${PROGNAME}: ${1:-"Unknown Error"}" 1>&2
+  exit 1
+}
+
+# unset GEM_HOME
+# unset GEM_PATH
+
+echo "Symlinking elb binary"
+
+ln -sf /opt/elb/bin/elb /usr/bin/elb || error_exit "Cannot link elb"
+
+echo "Thank you for installing elb!"
+
+exit 0

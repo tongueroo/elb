@@ -19,10 +19,10 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_dependency "thor"
-  spec.add_dependency "aws-sdk-v1"
+  spec.add_dependency "aws-sdk"
   spec.add_dependency "hashie"
   spec.add_dependency "colorize"
-  spec.add_dependency "nokogiri", "1.5.11" # fix for 1.8.7
+  # spec.add_dependency "nokogiri", "1.5.11" # fix for 1.8.7
 
   spec.add_development_dependency "bundler", "~> 1.3"
   spec.add_development_dependency "rake"

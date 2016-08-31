@@ -33,11 +33,6 @@ module Elb
       @asg = asg_name
     end
 
-    def elb
-      return @elb if @elb
-      @elb = asg.load_balancers.first
-    end
-
     def elb_deregistration
       as = Aws::AutoScaling::Client.new()
 
@@ -112,6 +107,8 @@ module Elb
       UI.say("Deregistering server from ELB")
       return true if @options[:noop]
       
+      elb_deregistration
+
       wait(@options[:wait]) # takes a while for the elb to deregister
     end
 
