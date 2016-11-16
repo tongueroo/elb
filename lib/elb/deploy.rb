@@ -34,72 +34,76 @@ module Elb
     end
 
     def elb_deregistration
-      as = Aws::AutoScaling::Client.new()
+      unless asg != ''
+        as = Aws::AutoScaling::Client.new()
 
-      tgs = as.describe_load_balancer_target_groups({ auto_scaling_group_name: asg })
+        tgs = as.describe_load_balancer_target_groups({ auto_scaling_group_name: asg })
 
-      if tgs[0].empty?
-        lbs = as.describe_load_balancers({
-          auto_scaling_group_name: asg
-        })
+        if tgs[0].empty?
+          lbs = as.describe_load_balancers({
+            auto_scaling_group_name: asg
+          })
 
-        elb = Aws::ElasticLoadBalancing::Client.new()
+          elb = Aws::ElasticLoadBalancing::Client.new()
 
-        # deregister
-        # 
-        elb.deregister_instances_from_load_balancer({
-          load_balancer_name: lbs[0][0].load_balancer_name,
-          instances: [ 
-            {
-              instance_id: @instance_id,
-            },
-          ],})
-      else
-        elb2 = Aws::ElasticLoadBalancingV2::Client.new()
+          # deregister
+          # 
+          elb.deregister_instances_from_load_balancer({
+            load_balancer_name: lbs[0][0].load_balancer_name,
+            instances: [ 
+              {
+                instance_id: @instance_id,
+              },
+            ],})
+        else
+          elb2 = Aws::ElasticLoadBalancingV2::Client.new()
 
-        elb2.deregister_targets({
-          target_group_arn: tgs[0][0].load_balancer_target_group_arn, # required
-          targets: [
-            {
-              id: @instance_id
-            },
-          ],
-        })
+          elb2.deregister_targets({
+            target_group_arn: tgs[0][0].load_balancer_target_group_arn, # required
+            targets: [
+              {
+                id: @instance_id
+              },
+            ],
+          })
+        end
       end
     end
 
     def elb_registration
-      as = Aws::AutoScaling::Client.new()
+      unless asg != ''
+        as = Aws::AutoScaling::Client.new()
 
-      tgs = as.describe_load_balancer_target_groups({ auto_scaling_group_name: asg })
+        tgs = as.describe_load_balancer_target_groups({ auto_scaling_group_name: asg })
 
-      if tgs[0].empty?
-        lbs = as.describe_load_balancers({
-          auto_scaling_group_name: asg
-        })
+        if tgs[0].empty?
+          lbs = as.describe_load_balancers({
+            auto_scaling_group_name: asg
+          })
 
-        elb = Aws::ElasticLoadBalancing::Client.new()
+          elb = Aws::ElasticLoadBalancing::Client.new()
 
-        # register
-        # 
-        elb.register_instances_with_load_balancer({
-          load_balancer_name: lbs[0][0].load_balancer_name,
-          instances: [ 
-            {
-              instance_id: @instance_id,
-            },
-          ],})
-      else
-        elb2 = Aws::ElasticLoadBalancingV2::Client.new()
+          # register
+          # 
+          elb.register_instances_with_load_balancer({
+            load_balancer_name: lbs[0][0].load_balancer_name,
+            instances: [ 
+              {
+                instance_id: @instance_id,
+              },
+            ],})
+        else
+          elb2 = Aws::ElasticLoadBalancingV2::Client.new()
 
-        elb2.register_targets({
-          target_group_arn: tgs[0][0].load_balancer_target_group_arn, # required
-          targets: [
-            {
-              id: @instance_id
-            },
-          ],
-        })
+          elb2.register_targets({
+            target_group_arn: tgs[0][0].load_balancer_target_group_arn, # required
+            targets: [
+              {
+                id: @instance_id
+              },
+            ],
+          })
+        end
       end
     end
 
