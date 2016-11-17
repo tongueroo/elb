@@ -34,7 +34,7 @@ module Elb
     end
 
     def elb_deregistration
-      unless asg != ''
+      if asg != ''
         as = Aws::AutoScaling::Client.new()
 
         tgs = as.describe_load_balancer_target_groups({ auto_scaling_group_name: asg })
@@ -71,7 +71,7 @@ module Elb
     end
 
     def elb_registration
-      unless asg != ''
+      if asg != ''
         as = Aws::AutoScaling::Client.new()
 
         tgs = as.describe_load_balancer_target_groups({ auto_scaling_group_name: asg })
